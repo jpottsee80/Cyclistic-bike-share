@@ -1,0 +1,39 @@
+---
+title: "Trip Data 12/2021"
+author: "Jacob"
+date: "2023-01-04"
+output: html_document
+---
+
+## Setting up my enviroment
+Notes: setting up my R environment by loading the 'tidyverse' package and 'x202112_divvy_tripdata' dataset
+
+```{r loading packages and dataset}
+library(tidyverse)
+library(readxl)
+X202112_divvy_tripdata <- read_excel("Data/Trip data/202112-divvy-tripdata/xls/202112-divvy-tripdata.xlsx")
+View(X202112_divvy_tripdata)
+```
+
+## Calculate average ride length for casual and member
+Notes: ride length is averaged over entire week Sunday - Saturday
+
+```{r summarize rider types, echo=TRUE}
+X202112_divvy_tripdata %>% 
+  group_by(member_casual, day_of_week) %>% 
+  summarize('average ride length' = mean(ride_length))
+```
+
+## Plot the data
+Plotting day_of_week against ride_length while looking at the breakdown of casual and member
+
+```{r visualization}
+X202112_divvy_tripdata %>% 
+  ggplot(aes(day_of_week, ride_length, colour = member_casual)) +
+  geom_point(size = 3, alpha = 0.5)
+```
+
+
+
+
+
